@@ -1,0 +1,34 @@
+dashboard_new.py
+
+import streamlit as st
+import pandas as pd
+import numpy as np
+import altair as alt
+
+st.title("🆕 Fresh Streamlit Data Dashboard")
+st.write("This is a brand-new dashboard. Old apps remain safe.")
+
+# Sample Data
+df = pd.DataFrame({
+    "Value": [10, 20, 30, 40, 50],
+    "Random": np.random.randint(5, 50, 5)
+})
+
+# User Input
+slider_val = st.slider("Choose a minimum value:", 0, 50, 20)
+filtered = df[df["Value"] >= slider_val]
+
+# Table
+st.subheader("Filtered Data")
+st.dataframe(filtered)
+
+# Chart
+chart = alt.Chart(filtered).mark_bar().encode(
+    x="Value",
+    y="Random"
+)
+st.altair_chart(chart, use_container_width=True)
+
+# JSON
+st.subheader("JSON Output")
+st.json(filtered.to_dict())

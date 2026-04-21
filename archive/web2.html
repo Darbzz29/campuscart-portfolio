@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Grocery Cart</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f9fafb; margin:0; padding:20px; }
+    h1 { text-align:center; }
+    .section { margin:20px auto; max-width:900px; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+    label { display:block; margin-top:10px; }
+    input, select { width:100%; padding:8px; margin-top:4px; border:1px solid #ccc; border-radius:4px; }
+    button { margin-top:10px; padding:10px 16px; background:#22c55e; color:#fff; border:none; border-radius:4px; cursor:pointer; }
+    button:hover { background:#16a34a; }
+    table { width:100%; border-collapse:collapse; margin-top:10px; }
+    th, td { border:1px solid #ddd; padding:8px; text-align:center; }
+    th { background:#f3f4f6; }
+    .summary { margin-top:15px; font-weight:bold; }
+  </style>
+</head>
+<body>
+  <h1>Student Grocery Cart</h1>
+
+  <!-- Add item form -->
+  <div class="section">
+    <h2>Add Item</h2>
+    <label>Item Name</label>
+    <input type="text" id="itemName" placeholder="e.g., Milk, Chips" />
+    <label>Quantity</label>
+    <input type="number" id="itemQty" value="1" min="1" />
+    <label>Price (₹ per unit)</label>
+    <input type="number" id="itemPrice" value="0" min="0" />
+    <label>Category</label>
+    <select id="itemCat">
+      <option>Essentials</option>
+      <option>Snacks</option>
+      <option>Fruits</option>
+      <option>Veggies</option>
+    </select>
+    <button onclick="addToCart()">Add to Cart</button>
+  </div>
+
+  <!-- Cart -->
+  <div class="section">
+    <h2>Your Cart</h2>
+    <table id="cartTable">
+      <thead>
+        <tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th><th>Remove</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="summary" id="cartSummary">Cart is empty</div>
+  </div>
+
+  <script>
+    let cart = [];
+
+    function addToCart() {
+      const name = document.getElementById("itemName").value.trim();
+      const qty = parseInt(document.getElementById("itemQty").value);
+      const price = parseInt(document.getElementById("itemPrice").value);
+      if (!name || qty <= 0 || price < 0) return alert("Please enter valid details");
+
+      cart.push({ name, qty, price });
+      renderCart();
+      document.getElementById("itemName").value = "";
+      document.getElementById("itemQty").value = 1;
+      document.getElementById("itemPrice").value = 0;
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function renderCart() {
+      const tbody = document.querySelector("#cartTable tbody");
+      tbody.innerHTML = "";
+      let totalItems = 0, totalCost = 0;
+
+      cart.forEach((item, i) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.name}</td>
+          <td>${item.qty}</td>
+          <td>₹${item.price}</td>
+          <td>₹${item.qty * item.price}</td>
+          <td><button onclick="removeItem(${i})">X</button></td>
+        `;
+        tbody.appendChild(row);
+        totalItems += item.qty;
+        totalCost += item.qty * item.price;
+      });
+
+      document.getElementById("cartSummary").textContent =
+        cart.length ? `Total items: ${totalItems} | Total cost: ₹${totalCost}` : "Cart is empty";
+    }
+  </script>
+</body>
+</html>

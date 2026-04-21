@@ -1,0 +1,131 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "bd035c01-4521-4718-b4bc-f3860863b61d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: nltk in c:\\users\\deborah\\anaconda3\\lib\\site-packages (3.9.1)\n",
+      "Requirement already satisfied: click in c:\\users\\deborah\\anaconda3\\lib\\site-packages (from nltk) (8.1.7)\n",
+      "Requirement already satisfied: joblib in c:\\users\\deborah\\anaconda3\\lib\\site-packages (from nltk) (1.4.2)\n",
+      "Requirement already satisfied: regex>=2021.8.3 in c:\\users\\deborah\\anaconda3\\lib\\site-packages (from nltk) (2024.9.11)\n",
+      "Requirement already satisfied: tqdm in c:\\users\\deborah\\anaconda3\\lib\\site-packages (from nltk) (4.66.5)\n",
+      "Requirement already satisfied: colorama in c:\\users\\deborah\\anaconda3\\lib\\site-packages (from click->nltk) (0.4.6)\n"
+     ]
+    }
+   ],
+   "source": [
+    "!pip install nltk"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "35541958-937e-4a76-bfe5-d121bbcb1a6d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[nltk_data] Downloading package reuters to\n",
+      "[nltk_data]     C:\\Users\\Deborah\\AppData\\Roaming\\nltk_data...\n",
+      "[nltk_data] Downloading package punkt to\n",
+      "[nltk_data]     C:\\Users\\Deborah\\AppData\\Roaming\\nltk_data...\n",
+      "[nltk_data]   Package punkt is already up-to-date!\n",
+      "[nltk_data] Downloading package punkt_tab to\n",
+      "[nltk_data]     C:\\Users\\Deborah\\AppData\\Roaming\\nltk_data...\n",
+      "[nltk_data]   Package punkt_tab is already up-to-date!\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Next Word: of\n"
+     ]
+    }
+   ],
+   "source": [
+    "import nltk\n",
+    "from nltk import bigrams, trigrams\n",
+    "from nltk.corpus import reuters\n",
+    "from collections import defaultdict\n",
+    "\n",
+    "# Download necessary NLTK resources\n",
+    "nltk.download('reuters')\n",
+    "nltk.download('punkt')\n",
+    "nltk.download('punkt_tab') # Added to resolve LookupError\n",
+    "\n",
+    "# Tokenize the text\n",
+    "words = nltk.word_tokenize(' '.join(reuters.words()))\n",
+    "\n",
+    "# Create trigrams\n",
+    "tri_grams = list(trigrams(words))\n",
+    "\n",
+    "# Build a trigram model\n",
+    "model = defaultdict(lambda: defaultdict(lambda: 0))\n",
+    "\n",
+    "# Count frequency of co-occurrence\n",
+    "for w1, w2, w3 in tri_grams:\n",
+    "    model[(w1, w2)][w3] += 1\n",
+    "\n",
+    "# Function to predict the next word\n",
+    "def predict_next_word(w1, w2):\n",
+    "    \"\"\"\n",
+    "    Predicts the next word based on the previous two words using the trained trigram model.\n",
+    "\n",
+    "    Args:\n",
+    "        w1 (str): The first word.\n",
+    "        w2 (str): The second word.\n",
+    "\n",
+    "    Returns:\n",
+    "        str: The predicted next word.\n",
+    "    \"\"\"\n",
+    "    next_word = model[w1, w2]\n",
+    "    if next_word:\n",
+    "        predicted_word = max(next_word, key=next_word.get) # Choose the most likely next word\n",
+    "        return predicted_word\n",
+    "    else:\n",
+    "        return \"No prediction available\"\n",
+    "\n",
+    "# Example usage\n",
+    "print(\"Next Word:\", predict_next_word('the', 'stock'))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d56d774a-60c5-4b55-b836-8b03f1a6993b",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python [conda env:base] *",
+   "language": "python",
+   "name": "conda-base-py"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Grocery Cart</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f9fafb; margin:0; padding:20px; }
+    h1 { text-align:center; }
+    .section { margin:20px auto; max-width:900px; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+    table { width:100%; border-collapse:collapse; margin-top:10px; }
+    th, td { border:1px solid #ddd; padding:8px; text-align:center; }
+    th { background:#f3f4f6; }
+    button { padding:6px 12px; background:#22c55e; color:#fff; border:none; border-radius:4px; cursor:pointer; }
+    button:hover { background:#16a34a; }
+    .summary { margin-top:15px; font-weight:bold; }
+    label { display:block; margin-top:10px; }
+    input, textarea, select { width:100%; padding:8px; margin-top:4px; border:1px solid #ccc; border-radius:4px; }
+  </style>
+</head>
+<body>
+  <h1>Student Grocery Cart</h1>
+
+  <!-- Preloaded items -->
+  <div class="section">
+    <h2>Available Items</h2>
+    <table>
+      <thead>
+        <tr><th>Item</th><th>Category</th><th>Price (₹)</th><th>Add</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Milk (1L)</td><td>Essentials</td><td>60</td><td><button onclick="addToCart('Milk (1L)',1,60)">Add</button></td></tr>
+        <tr><td>Bread</td><td>Essentials</td><td>40</td><td><button onclick="addToCart('Bread',1,40)">Add</button></td></tr>
+        <tr><td>Eggs (6)</td><td>Essentials</td><td>45</td><td><button onclick="addToCart('Eggs (6)',1,45)">Add</button></td></tr>
+        <tr><td>Rice (1kg)</td><td>Essentials</td><td>80</td><td><button onclick="addToCart('Rice (1kg)',1,80)">Add</button></td></tr>
+        <tr><td>Dal (500g)</td><td>Essentials</td><td>70</td><td><button onclick="addToCart('Dal (500g)',1,70)">Add</button></td></tr>
+        <tr><td>Tomato</td><td>Veggies</td><td>5</td><td><button onclick="addToCart('Tomato',1,5)">Add</button></td></tr>
+        <tr><td>Onion</td><td>Veggies</td><td>6</td><td><button onclick="addToCart('Onion',1,6)">Add</button></td></tr>
+        <tr><td>Banana (6)</td><td>Fruits</td><td>35</td><td><button onclick="addToCart('Banana (6)',1,35)">Add</button></td></tr>
+        <tr><td>Cooking oil (1L)</td><td>Essentials</td><td>140</td><td><button onclick="addToCart('Cooking oil (1L)',1,140)">Add</button></td></tr>
+        <tr><td>Salt</td><td>Essentials</td><td>25</td><td><button onclick="addToCart('Salt',1,25)">Add</button></td></tr>
+        <tr><td>Chips Packet</td><td>Snacks</td><td>20</td><td><button onclick="addToCart('Chips Packet',1,20)">Add</button></td></tr>
+        <tr><td>Biscuits</td><td>Snacks</td><td>30</td><td><button onclick="addToCart('Biscuits',1,30)">Add</button></td></tr>
+        <tr><td>Chocolate Bar</td><td>Snacks</td><td>25</td><td><button onclick="addToCart('Chocolate Bar',1,25)">Add</button></td></tr>
+        <tr><td>Instant Noodles</td><td>Snacks</td><td>15</td><td><button onclick="addToCart('Instant Noodles',1,15)">Add</button></td></tr>
+        <tr><td>Soft Drink (500ml)</td><td>Snacks</td><td>40</td><td><button onclick="addToCart('Soft Drink (500ml)',1,40)">Add</button></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Cart -->
+  <div class="section">
+    <h2>Your Cart</h2>
+    <table id="cartTable">
+      <thead>
+        <tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th><th>Remove</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="summary" id="cartSummary">Cart is empty</div>
+    <button onclick="showCheckout()">Proceed to Buy</button>
+  </div>
+
+  <!-- Checkout -->
+  <div class="section" id="checkoutSection" style="display:none;">
+    <h2>Checkout</h2>
+    <form id="checkoutForm">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" required />
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" required />
+
+      <label for="address">Delivery Address</label>
+      <textarea id="address" rows="3" required></textarea>
+
+      <label for="remote">Remote Area Delivery?</label>
+      <select id="remote">
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+      </select>
+
+      <button type="submit">Place Order</button>
+    </form>
+    <p id="confirmation" style="margin-top:10px; color:green; font-weight:bold;"></p>
+  </div>
+
+  <script>
+    let cart = [];
+
+    function addToCart(name, qty, price) {
+      const existing = cart.find(i => i.name === name);
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        cart.push({ name, qty, price });
+      }
+      renderCart();
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function renderCart() {
+      const tbody = document.querySelector("#cartTable tbody");
+      tbody.innerHTML = "";
+      let totalItems = 0, totalCost = 0;
+
+      cart.forEach((item, i) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.name}</td>
+          <td>${item.qty}</td>
+          <td>₹${item.price}</td>
+          <td>₹${item.qty * item.price}</td>
+          <td><button onclick="removeItem(${i})">X</button></td>
+        `;
+        tbody.appendChild(row);
+        totalItems += item.qty;
+        totalCost += item.qty * item.price;
+      });
+
+      document.getElementById("cartSummary").textContent =
+        cart.length ? `Total items: ${totalItems} | Total cost: ₹${totalCost}` : "Cart is empty";
+    }
+
+    function showCheckout() {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+      document.getElementById("checkoutSection").style.display = "block";
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    document.getElementById("checkoutForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const phone = document.getElementById("phone").value;
+      const address = document.getElementById("address").value;
+      const remote = document.getElementById("remote").value;
+
+      let totalCost = cart.reduce((sum, i) => sum + i.qty * i.price, 0);
+      document.getElementById("confirmation").textContent =
+        `Order placed! Thank you, ${name}. Phone: ${phone}. Delivery to: ${address}. Remote area: ${remote}. Total cost: ₹${

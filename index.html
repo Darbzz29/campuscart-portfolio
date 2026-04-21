@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="description"
+    content="CampusCart is a student-focused grocery planner that helps shoppers stay on budget, build a cart, and preview checkout details."
+  >
+  <title>CampusCart | Student Grocery Planner</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <nav class="topbar" aria-label="Primary">
+        <a class="brand" href="#top">CampusCart</a>
+        <div class="topbar-links">
+          <a href="#catalog">Catalog</a>
+          <a href="#checkout">Checkout</a>
+          <a href="#highlights">Highlights</a>
+        </div>
+      </nav>
+
+      <section class="hero-grid" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow">Portfolio Project</p>
+          <h1>A sharper student grocery experience built for budget-conscious shoppers.</h1>
+          <p class="hero-text">
+            This upgraded version turns a basic cart demo into a cleaner, internship-ready front-end project with
+            filtering, budget planning, local storage, and a polished checkout flow.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#catalog">Explore products</a>
+            <a class="button button-secondary" href="#checkout">Try checkout</a>
+          </div>
+          <div class="hero-stats" aria-label="Project quick facts">
+            <article>
+              <strong>12</strong>
+              <span>Curated products</span>
+            </article>
+            <article>
+              <strong>3</strong>
+              <span>Live filters</span>
+            </article>
+            <article>
+              <strong>Local</strong>
+              <span>State saved in browser</span>
+            </article>
+          </div>
+        </div>
+
+        <aside class="hero-panel" aria-label="Shopping insight">
+          <p class="panel-kicker">Weekly snapshot</p>
+          <h2>Plan essentials, snacks, and delivery before you spend.</h2>
+          <ul class="panel-list">
+            <li>Track your cart total against a weekly budget.</li>
+            <li>Filter items by category or search by name.</li>
+            <li>Save the cart automatically between refreshes.</li>
+          </ul>
+          <div class="budget-teaser">
+            <span>Suggested student budget</span>
+            <strong id="heroBudgetValue">INR 1,200</strong>
+          </div>
+        </aside>
+      </section>
+    </header>
+
+    <main>
+      <section class="controls-section" id="catalog">
+        <div class="section-heading">
+          <p class="eyebrow">Smart Catalog</p>
+          <h2>Browse a cleaner product experience</h2>
+          <p>
+            Search items, filter categories, and adjust your budget target to see whether the cart still feels realistic.
+          </p>
+        </div>
+
+        <div class="controls-grid">
+          <label class="control-card">
+            <span>Search products</span>
+            <input id="searchInput" type="search" placeholder="Search for milk, rice, chips...">
+          </label>
+
+          <label class="control-card">
+            <span>Category</span>
+            <select id="categoryFilter">
+              <option value="all">All categories</option>
+              <option value="Essentials">Essentials</option>
+              <option value="Produce">Produce</option>
+              <option value="Snacks">Snacks</option>
+            </select>
+          </label>
+
+          <label class="control-card control-card-range">
+            <span>Weekly budget</span>
+            <input id="budgetRange" type="range" min="500" max="3000" value="1200" step="100">
+            <strong id="budgetValue">INR 1,200</strong>
+          </label>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <div class="catalog-panel">
+          <div class="catalog-header">
+            <div>
+              <p class="eyebrow">Catalog</p>
+              <h2>Products</h2>
+            </div>
+            <p id="resultsCount" class="muted">12 items available</p>
+          </div>
+          <div id="productGrid" class="product-grid" aria-live="polite"></div>
+        </div>
+
+        <aside class="cart-panel">
+          <div class="cart-heading">
+            <div>
+              <p class="eyebrow">Live Cart</p>
+              <h2>Your basket</h2>
+            </div>
+            <button id="clearCartButton" class="text-button" type="button">Clear</button>
+          </div>
+
+          <div id="cartItems" class="cart-items" aria-live="polite"></div>
+
+          <div class="summary-card">
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <strong id="subtotalValue">INR 0</strong>
+            </div>
+            <div class="summary-row">
+              <span>Delivery</span>
+              <strong id="deliveryValue">INR 40</strong>
+            </div>
+            <div class="summary-row total-row">
+              <span>Total</span>
+              <strong id="totalValue">INR 40</strong>
+            </div>
+          </div>
+
+          <div id="budgetStatus" class="budget-status">
+            Add products to compare your cart against the weekly budget.
+          </div>
+        </aside>
+      </section>
+
+      <section class="checkout-layout" id="checkout">
+        <div class="section-heading">
+          <p class="eyebrow">Checkout</p>
+          <h2>Simple form, clearer order summary</h2>
+          <p>
+            The checkout area validates basic details and generates an order confirmation without any backend dependency.
+          </p>
+        </div>
+
+        <div class="checkout-grid">
+          <form id="checkoutForm" class="checkout-card">
+            <label>
+              <span>Full name</span>
+              <input id="customerName" type="text" required>
+            </label>
+
+            <label>
+              <span>Email address</span>
+              <input id="customerEmail" type="email" required>
+            </label>
+
+            <label>
+              <span>Phone number</span>
+              <input id="customerPhone" type="tel" required>
+            </label>
+
+            <label>
+              <span>Hostel or address</span>
+              <textarea id="customerAddress" rows="4" required></textarea>
+            </label>
+
+            <label>
+              <span>Delivery zone</span>
+              <select id="deliveryZone">
+                <option value="standard">Standard area</option>
+                <option value="remote">Remote area</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Notes</span>
+              <input id="customerNotes" type="text" placeholder="Optional preferences">
+            </label>
+
+            <button class="button button-primary form-button" type="submit">Place sample order</button>
+          </form>
+
+          <div class="checkout-card order-card">
+            <p class="eyebrow">Order Summary</p>
+            <div id="checkoutSummary" class="checkout-summary">
+              Your summary will update as you build a cart.
+            </div>
+            <div id="confirmationMessage" class="confirmation-message" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="highlights" id="highlights">
+        <div class="section-heading">
+          <p class="eyebrow">Why It Looks Better</p>
+          <h2>Project upgrades that help on GitHub and in internship applications</h2>
+        </div>
+
+        <div class="highlight-grid">
+          <article class="highlight-card">
+            <h3>Cleaner structure</h3>
+            <p>Separated HTML, CSS, and JavaScript into maintainable files instead of stacking everything into one draft page.</p>
+          </article>
+          <article class="highlight-card">
+            <h3>Stronger UX</h3>
+            <p>Added search, filters, quantity controls, budget feedback, and persistent state so the project feels more complete.</p>
+          </article>
+          <article class="highlight-card">
+            <h3>Portfolio ready</h3>
+            <p>The page now communicates purpose, features, and polish in a way that will read much better to recruiters reviewing your work.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Built as a front-end portfolio project focused on UI polish, state management, and responsive layout.</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

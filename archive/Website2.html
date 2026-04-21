@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Essentials Order</title>
+</head>
+<body>
+
+  <h1>Order Daily Essentials</h1>
+  <p>For students in remote areas</p>
+
+  <h2>Available Products</h2>
+  <ul>
+    <li>Notebook Pack - ₹150</li>
+    <li>Stationery Kit - ₹100</li>
+    <li>Sanitary Pads - ₹80</li>
+    <li>Instant Food Pack - ₹200</li>
+  </ul>
+
+  <h2>Order Form</h2>
+  <form action="mailto:youremail@example.com" method="post" enctype="text/plain">
+    Name:<br>
+    <input type="text" name="name"><br><br>
+
+    Address:<br>
+    <textarea name="address" rows="3" cols="30"></textarea><br><br>
+
+    Product:<br>
+    <select name="product">
+      <option value="Notebook Pack">Notebook Pack</option>
+      <option value="Stationery Kit">Stationery Kit</option>
+      <option value="Sanitary Pads">Sanitary Pads</option>
+      <option value="Instant Food Pack">Instant Food Pack</option>
+    </select><br><br>
+
+    Quantity:<br>
+    <input type="number" name="quantity"><br><br>
+
+    Notes:<br>
+    <textarea name="notes" rows="2" cols="30"></textarea><br><br>
+
+    <input type="submit" value="Submit Order">
+  </form>
+
+</body>
+</html>

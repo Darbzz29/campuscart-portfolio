@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nike Shoes Collection</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: black;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .hero {
+      background: url('https://via.placeholder.com/1200x400?text=Nike+Shoes') no-repeat center center;
+      background-size: cover;
+      height: 400px;
+    }
+    section {
+      padding: 40px 20px;
+    }
+    .collection, .stores {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 250px;
+      padding: 16px;
+      text-align: center;
+    }
+    footer {
+      background-color: #f2f2f2;
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Nike Shoes Collection</h1>
+    <p>Explore the latest styles and find a store near you</p>
+  </header>
+
+  <div class="hero"></div>
+
+  <section>
+    <h2>Featured Shoes</h2>
+    <div class="collection">
+      <div class="card">
+        <img src="https://via.placeholder.com/200x150?text=Air+Max" alt="Air Max" />
+        <h3>Nike Air Max</h3>
+        <p>Comfort meets style</p>
+      </div>
+      <div class="card">
+        <img src="https://via.placeholder.com/200x150?text=Air+Force+1" alt="Air Force 1" />
+        <h3>Air Force 1</h3>
+        <p>Classic streetwear icon</p>
+      </div>
+      <div class="card">
+        <img src="https://via.placeholder.com/200x150?text=Zoom+Fly" alt="Zoom Fly" />
+        <h3>Zoom Fly</h3>
+        <p>Built for speed</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Find a Nike Store</h2>
+    <div class="stores">
+      <div class="card">
+        <h3>Bangalore</h3>
+        <p>123 MG Road<br/>Phone: 080-12345678</p>
+      </div>
+      <div class="card">
+        <h3>Mumbai</h3>
+        <p>456 Bandra Street<br/>Phone: 022-87654321</p>
+      </div>
+      <div class="card">
+        <h3>Delhi</h3>
+        <p>789 Connaught Place<br/>Phone: 011-11223344</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Nike Inc. | All rights reserved</p>
+  </footer>
+
+</body>
+</html>
+
